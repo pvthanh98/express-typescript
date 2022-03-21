@@ -7,6 +7,13 @@ export class User {
 
     @Column({
         type:"varchar",
+        length:255,
+        unique:true
+    })
+    email: string;
+
+    @Column({
+        type:"varchar",
         length: 255
     })
     firstName: string;
@@ -25,7 +32,8 @@ export class User {
 
     @Column({
         type:"varchar",
-        length: 255
+        length: 255,
+        select:false
     })
     password: string;
 }

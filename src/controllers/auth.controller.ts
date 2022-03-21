@@ -12,8 +12,12 @@ const signupController = (req: Request, res: Response) => {
         // errors is an array of validation errors
         if (errors.length > 0) 
             return res.status(400).send(convertError(errors));
-        const user = await signUpService(userData);  
-        return res.send(user)
+        const results = await signUpService(userData);  
+        if (!results.err) {
+            return res.json(results.data);
+        } else {
+            return res.status(400).json(results.err)
+        }
     });
 }
 
