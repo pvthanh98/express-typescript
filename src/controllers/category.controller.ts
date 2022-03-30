@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
-import { createCategoryService } from '../services/category.service';
+import { 
+    createCategoryService,
+    getCategoryService
+} from '../services/category.service';
 import { validate } from 'class-validator';
 import { plainToInstance } from "class-transformer";
 import SignupUserDto from '../validators/signup-user.dto';
@@ -17,6 +20,12 @@ const categoryController = (req: Request, res: Response) => {
     });
 }
 
+const getCategoryController = async (req: Request, res: Response) => {
+    const result = await getCategoryService();
+    return res.json(result)
+}
+
 export {
     categoryController,
+    getCategoryController
 }

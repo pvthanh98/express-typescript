@@ -9,6 +9,13 @@ const createCategoryService = async (categoryData: CreateCategoryDto) : Promise<
     return category;
 }
 
+const getCategoryService = async () : Promise<any> => {
+    const categoryRepo = await getRepository(Category);
+    const categories = await categoryRepo.find()
+    return categories;
+}
+
 export {
-    createCategoryService
+    createCategoryService,
+    getCategoryService
 }
