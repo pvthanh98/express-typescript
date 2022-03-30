@@ -26,7 +26,7 @@ passport.use(
 );
 
 function passport_authenticate_jwt(req: any, res: any, next: any) {
-  passport.authenticate("jwt", function (err: any, user: any, info: any) {
+  passport.authenticate("jwt", function (err: any, user: any) {
     if (err) return next(err);
     if (!user)
       return res.status(401).send(AUTHENTICATION_ERROR.NOT_AUTHORIZED);
