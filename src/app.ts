@@ -6,6 +6,7 @@ import { router as AuthRouter } from './routes/auth.route';
 import {createConnection} from "typeorm";
 import ormconfig from './ormconfig';
 import bodyParser from 'body-parser';
+import { passport, passport_authenticate_jwt } from './base/passport.config';
 
 dotenv.config()
 
@@ -17,7 +18,7 @@ createConnection(ormconfig).then(() => {
     app.use(bodyParser.json())
     
     /** Routers */
-    app.use("/common", CommonRouter);
+    app.use("/common", passport_authenticate_jwt, CommonRouter);
     app.use("/auth", AuthRouter);
 
     app.listen(process.env.PORT, ()=>console.log("Server is running"));
