@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { 
     createCategoryService,
-    getCategoryService
+    deleteCategoryService,
+    getCategoryService,
+    updateCategoryService
 } from '../services/category.service';
 import { validate } from 'class-validator';
 import { plainToInstance } from "class-transformer";
-import SignupUserDto from '../validators/signup-user.dto';
+import UpdateCategoryDto from '../validators/update-category.dto';
 import CreateCategoryDto from '../validators/create-category.dto';
 import { convertError } from '../base/utils';
 
@@ -25,7 +27,25 @@ const getCategoryController = async (req: Request, res: Response) => {
     return res.json(result)
 }
 
+
+const updateCategoryController = async (req: Request, res: Response) => {
+    const categoryData = plainToInstance(UpdateCategoryDto, req.body);
+    validate(categoryData).then(async errors => {
+        if (errors.length > 0) 
+            return res.status(400).send(convertError(errors));
+        const results = await updateCategoryService(req.params.id, categoryData);  
+        if (results.err) return res.status(400).send(results.err);
+        return res.send(results.data)
+    });
+}
+
+const deleteCategoryController = async (req: Request, res: Response) => {
+    return res.send(deleteCategoryService(req.params.id));
+}
+
 export {
     categoryController,
-    getCategoryController
+    getCategoryController,
+    updateCategoryController,
+    deleteCategoryController
 }

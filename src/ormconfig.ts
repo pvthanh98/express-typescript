@@ -1,10 +1,10 @@
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Category } from './entity/category.entity';
+import { User } from './entity/user.entity';
+import { Product } from './entity/product.entity';
 import * as dotenv from 'dotenv';
-import path from "path";
 
 dotenv.config();
-
-const isCompiled: boolean = path.extname(__filename).includes('js');
 
 const ormconfig: PostgresConnectionOptions = {
     "type": "postgres",
@@ -14,7 +14,9 @@ const ormconfig: PostgresConnectionOptions = {
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME,
     "entities": [
-        `src/entity/**/*.entity.${isCompiled ? "js" : "ts"} `
+       User, 
+       Category, 
+       Product
     ],
     "logging": true,
     "synchronize": true

@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Product } from './product.entity'; 
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import { Category } from './category.entity';
 
 @Entity()
-export class Category {
+export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -19,7 +19,6 @@ export class Category {
     })
     description: string;
 
-    @OneToMany(()=> Product, (product) => product.category)
-    products: Product[]
-
+    @ManyToOne(() => Category, (category) => category.products)
+    category: Category
 }
