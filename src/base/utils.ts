@@ -33,7 +33,7 @@ const paginateResponse = (results: any, query: commonQuery) => {
     if (results instanceof Array && results[0] instanceof Array && results.length === 2){
         let response: any = {};
         let totalPage: any;
-        if (limit) totalPage = Math.round(results[1] / limit);
+        if (limit) totalPage = Math.ceil(results[1] / limit);
         response.page = page;
         response.totalPage = totalPage;
         response.count = results[1];
