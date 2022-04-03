@@ -34,26 +34,51 @@ export default class ProductService {
         const productRepo = await getRepository(Product);
 
         const queryBuilder = await productRepo
-            .createQueryBuilder()
-            .select()
+            .createQueryBuilder('product')
+            .innerJoinAndSelect('product.category', 'category')
+            .select([
+                'product.id',
+                'product.name',
+                'product.description',
+                'category.name'
+            ])
         
         if (search) 
             /** When user searching */
             queryBuilder
-                .where('name ILIKE :searchTerm', {searchTerm: `%${search}%`})
+                .where('product.name ILIKE :searchTerm', {searchTerm: `%${search}%`})
+                .orWhere('category.name ILIKE :searchTerm', {searchTerm: `%${search}%`})
+
+        let response: any;
 
         if (noPagination){
+            console.log("PRINT HERE")
             const results = await queryBuilder
                 .getMany();
-            return paginateResponse(results, query);
-        }
-        
-        console.log(__dirname)
-        const results = await queryBuilder
+            response = paginateResponse(results, query);
+        } else {
+            const results = await queryBuilder
             .skip(offset)
             .take(limit)
             .getManyAndCount();
+            response = paginateResponse(results, query);
+        }
+        
+        /** Customize repsonse */
+        const {page, totalPage, count, results: results_2} = response;
+        const customResponse: any = [];
+        for (const product of results_2){
+            customResponse.push({
+                ...product,
+                category: product.category.name
+            })
+        }
 
-        return paginateResponse(results, query);
+        return {
+            page,
+            totalPage,
+            count,
+            results:customResponse
+        };
     }
 }
