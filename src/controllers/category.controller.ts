@@ -40,7 +40,9 @@ const updateCategoryController = async (req: Request, res: Response) => {
 }
 
 const deleteCategoryController = async (req: Request, res: Response) => {
-    return res.send(deleteCategoryService(req.params.id));
+    const results = await deleteCategoryService(req.params.id);
+    if (results && results.err) return res.status(400).send(results.err);
+    return res.send(results.data)
 }
 
 export {

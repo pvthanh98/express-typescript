@@ -15,17 +15,28 @@ export default class ProductController {
   createProduct = (req: Request, res: Response, next: NextFunction) => {
     const productData = plainToInstance(CreateProductDto, req.body);
     validate(productData).then(async (errors) => {
-        if (errors.length > 0) return res.status(400).send(convertError(errors));
-        const result = await this.service.createProduct(productData);
-        if (!result.err) {
-          return res.send(result.data)
-        }
+      if (errors.length > 0) return res.status(400).send(convertError(errors));
+      const result = await this.service.createProduct(productData);
+      if (!result.err) {
+        return res.send(result.data);
+      }
 
-        return res.status(400).send(result.err);
+      return res.status(400).send(result.err);
     });
   };
 
   getProducts = async (req: Request, res: Response, next: NextFunction) => {
     return res.send(await this.service.getProduct(req.query));
-  }
+  };
+
+  updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const results = await this.service.updateProduct(req.params.id, req.body);
+    if (results && results.err) return res.send(results.err);
+    return res.send(results.data);
+  };
+
+  deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+    const results = await this.service.deleteProduct(req.params.id);
+    return res.send(results);
+  };
 }

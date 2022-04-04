@@ -3,6 +3,7 @@ import UpdateCategoryDto from '../validators/update-category.dto';
 import { getRepository } from 'typeorm';
 import { Category } from '../entity/category.entity';
 import { CATEGORY_ERROR } from '../base/templates/error/category-error.template';
+import { Product } from '../entity/product.entity';
 
 const createCategoryService = async (categoryData: CreateCategoryDto) : Promise<any> => {
     const categoryRepo = await getRepository(Category);
@@ -43,7 +44,36 @@ const updateCategoryService = async (categoryId: string,categoryData: UpdateCate
 
 const deleteCategoryService = async (categoryId: string) : Promise<any> => {
     const categoryRepo = await getRepository(Category);
-    return categoryRepo.delete({id:categoryId})
+    const productRepo = await getRepository(Product);
+
+    const category = await categoryRepo.findOne({
+        where:{
+            id: categoryId
+        }
+    });
+
+    if (category) {
+        const totalProductAsignedToCategory = await productRepo.count({
+            where:{
+                category
+            }
+        });
+        if (totalProductAsignedToCategory > 0) 
+            return {
+                err: CATEGORY_ERROR.PRODUCT_ASSIGNED,
+                data: null
+            }
+        
+        return {
+            err: null,
+            data: await categoryRepo.delete(category)
+        }
+    }
+
+    return {
+        err: CATEGORY_ERROR.NOT_FOUND,
+        data: null
+    }
 }
 
 export {
