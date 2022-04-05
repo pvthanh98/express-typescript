@@ -2,7 +2,11 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 import { Category } from './entity/category.entity';
 import { User } from './entity/user.entity';
 import { Product } from './entity/product.entity';
+import { Person } from './entity/person.entity';
+import { Profile } from './entity/profile.entity';
 import * as dotenv from 'dotenv';
+import { QuestionType } from "./entity/question_type.entity";
+import { Question } from "./entity/question.entity";
 
 dotenv.config();
 
@@ -16,7 +20,11 @@ const ormconfig: PostgresConnectionOptions = {
     "entities": [
        User, 
        Category, 
-       Product
+       Product,
+       Person,
+       Profile,
+       QuestionType,
+       Question
     ],
     "logging": true,
     "synchronize": true
