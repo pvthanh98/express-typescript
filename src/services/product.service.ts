@@ -1,6 +1,6 @@
 import CreateProductDto from "../validators/create-product.dto";
 import UpdateProductDto from "../validators/update-product.dto";
-import { getRepository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import { Product } from "../entity/product.entity";
 import { Category } from "../entity/category.entity";
 import { PRODUCT_ERROR } from "../base/templates/error/product-error.template";
@@ -8,6 +8,11 @@ import { paginateResponse, processQuery } from "../base/utils";
 import { CATEGORY_ERROR } from "../base/templates/error/category-error.template";
 
 export default class ProductService {
+  productRepo: Repository<Product>;
+  constructor(){
+    this.productRepo = getRepository(Product)
+  }
+
   createProduct = async (data: CreateProductDto) => {
     const category = await getRepository(Category).findOne({
       where: { id: data.categoryId },

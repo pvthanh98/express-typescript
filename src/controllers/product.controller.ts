@@ -12,17 +12,17 @@ export default class ProductController {
     this.service = new ProductService();
   }
 
-  createProduct = (req: Request, res: Response, next: NextFunction) => {
-    const productData = plainToInstance(CreateProductDto, req.body);
-    validate(productData).then(async (errors) => {
-      if (errors.length > 0) return res.status(400).send(convertError(errors));
-      const result = await this.service.createProduct(productData);
+  createProduct = async (req: Request, res: Response, next: NextFunction) => {
+    // const productData = plainToInstance(CreateProductDto, req.body);
+    // validate(productData).then(async (errors) => {
+    //   if (errors.length > 0) return res.status(400).send(convertError(errors));
+    console.log("HEHAHA")
+      const result = await this.service.createProduct(req.body);
       if (!result.err) {
         return res.send(result.data);
       }
 
       return res.status(400).send(result.err);
-    });
   };
 
   getProducts = async (req: Request, res: Response, next: NextFunction) => {
