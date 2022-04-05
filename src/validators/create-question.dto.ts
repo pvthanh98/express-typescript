@@ -17,7 +17,7 @@ export class CreateQuestionDto {
     @ValidateNested({each:true})
     @IsOptional()
     @Type(()=> QuestionTypeDto)
-    questionTypes?: Array<string>;
+    questionTypes?: Array<QuestionTypeDto>;
 
 }
 
