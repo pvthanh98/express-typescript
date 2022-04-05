@@ -1,6 +1,4 @@
 
-import { Repository } from "typeorm";
-import { Question } from "../entity/question.entity";
 import { QuestionRepository } from "../repositories/question.repository";
 import { CreateQuestionDto } from "../validators/create-question.dto";
 
