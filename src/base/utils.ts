@@ -3,15 +3,18 @@ import { commonQuery } from "./interface";
 const convertError = (errors: Array<any>) => {
   const { constraints } = errors[0];
   let message = "";
-  for (const key in constraints) {
-    message = constraints[key];
-    break;
-  }
+  if (constraints){
+    for (const key in constraints) {
+      message = constraints[key];
+      break;
+    }
+  } else message = "Validation errors"
 
   return {
     code: "PARAS_1",
     message,
   };
+  
 };
 
 const processQuery = (query: any): commonQuery => {

@@ -5,6 +5,7 @@ import { router as CommonRouter } from './routes/index';
 import { router as AuthRouter } from './routes/auth.route';
 import { router as CategoryRouter } from './routes/category.route';
 import { router as ProductRouter } from './routes/product.route';
+import QuestionRouter from './routes/question.route';
 import bodyParser from 'body-parser';
 
 dotenv.config()
@@ -20,6 +21,7 @@ app.use("/auth", AuthRouter);
 app.use("/common", passportConfig.passport_authenticate_jwt, CommonRouter);
 app.use("/category", passportConfig.passport_authenticate_jwt, CategoryRouter);
 app.use("/product", passportConfig.passport_authenticate_jwt, ProductRouter);
+app.use("/question", passportConfig.passport_authenticate_jwt, QuestionRouter);
 
 app.listen(process.env.PORT, ()=>console.log("Server is running"));
 

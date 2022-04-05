@@ -11,7 +11,9 @@ export const validateMiddleware = (dto: any)=> {
             if (errors.length > 0) return res.status(400).send(convertError(errors));
             next();
           });
+      } else {
+        next();
       }
-      next();
+      
     };
-};
+}; 
